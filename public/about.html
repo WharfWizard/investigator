@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What is Investigator™? A free, independent tool that helps you check an investment before committing any money. Seven stages of plain-language due diligence.">
+  <title>About Investigator™ — Investment Due Diligence</title>
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #1a2e52;
+      --navy-deep:  #0f1e38;
+      --navy-mid:   #243a63;
+      --navy-light: #e8ecf4;
+      --gold:       #f5c518;
+      --gold-dark:  #c9a010;
+      --gold-pale:  #fdf6d8;
+      --text:       #1a2e52;
+      --text-mid:   #3d5280;
+      --text-muted: #6b7fa8;
+      --border:     #d0d8e8;
+      --surface:    #f4f6fb;
+      --white:      #ffffff;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── Nav ── */
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .nav-brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -.01em;
+    }
+    .nav-brand-name sup {
+      font-size: 10px;
+      font-weight: 500;
+    }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 6px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .nav-cta:hover { background: var(--navy-mid); }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--navy);
+      padding: 72px 24px 64px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .hero-question {
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      max-width: 680px;
+      margin: 0 auto 24px;
+    }
+    .hero-question em {
+      font-style: normal;
+      color: var(--gold);
+    }
+    .hero-answer {
+      font-size: clamp(15px, 2.5vw, 18px);
+      color: rgba(255,255,255,.75);
+      max-width: 560px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: var(--navy-deep);
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .hero-btn:hover { background: var(--gold-dark); color: var(--white); }
+    .hero-sub-note {
+      font-size: 12px;
+      color: rgba(255,255,255,.45);
+      margin-top: 14px;
+    }
+
+    /* ── Section wrapper ── */
+    .section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section + .section {
+      padding-top: 0;
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .section-heading {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-body {
+      font-size: 16px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+    .section-body p + p { margin-top: 14px; }
+
+    /* ── Divider ── */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 24px;
+    }
+
+    /* ── Who it's for ── */
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .who-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      background: var(--surface);
+    }
+    .who-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .who-card-body {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Seven stages ── */
+    .stages-wrap {
+      margin-top: 32px;
+      position: relative;
+    }
+    .stages-wrap::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 28px;
+      bottom: 28px;
+      width: 1px;
+      background: var(--border);
+    }
+    .stage-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 14px 0;
+      position: relative;
+    }
+    .stage-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .stage-content { padding-top: 8px; }
+    .stage-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 3px;
+    }
+    .stage-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── What it checks ── */
+    .checks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .check-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--white);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .check-pill-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Principles ── */
+    .principles-list {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .principle {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .principle:last-child { border-bottom: none; }
+    .principle-mark {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 9px;
+    }
+    .principle-text {}
+    .principle-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 3px;
+    }
+    .principle-body {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Get SAFE ── */
+    .get-safe-band {
+      background: var(--navy-light);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px;
+    }
+    .get-safe-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .get-safe-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      flex-shrink: 0;
+    }
+    .get-safe-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .get-safe-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .get-safe-body {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+    .get-safe-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ── CTA band ── */
+    .cta-band {
+      background: var(--navy);
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .cta-heading {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .cta-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,.65);
+      margin-bottom: 28px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: var(--navy-deep);
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .cta-btn:hover { background: var(--gold-dark); color: var(--white); }
+
+    /* ── Footer ── */
+    .site-footer {
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .footer-logo img { width: 28px; height: 28px; border-radius: 6px; }
+    .footer-logo-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .footer-text a { color: var(--text-muted); text-underline-offset: 2px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 560px) {
+      .hero { padding: 52px 20px 48px; }
+      .section { padding: 48px 20px; }
+      .stages-wrap::before { display: none; }
+      .get-safe-inner { flex-direction: column; gap: 16px; }
+      .get-safe-img { width: 48px; height: 48px; }
+    }
+
+    /* ── Focus ── */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="site-nav" aria-label="Site navigation">
+  <a class="nav-brand" href="index.html">
+    <img src="assets/icon.png" alt="Investigator logo" width="36" height="36">
+    <span class="nav-brand-name">Investigator<sup>™</sup></span>
+  </a>
+  <a class="nav-cta" href="index.html">Start your review →</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero" role="banner">
+  <div class="hero-eyebrow">Free · Independent · No account needed</div>
+  <h1 class="hero-question">
+    Is this investment<br><em>safe or a scam?</em><br>Find out before you commit.
+  </h1>
+  <p class="hero-answer">
+    Investigator™ is a free, independent tool that walks you through seven stages of plain-language due diligence — so you can make a genuinely informed decision before any money leaves your account.
+  </p>
+  <a class="hero-btn" href="index.html">Begin the review →</a>
+  <p class="hero-sub-note">Takes around 15 minutes. No sign-up. Nothing is stored.</p>
+</header>
+
+<!-- Who it's for -->
+<div class="section">
+  <div class="section-label">Who it's for</div>
+  <h2 class="section-heading">Anyone who has been offered an investment and wants to think it through clearly</h2>
+  <p class="section-body">You do not need to be financially sophisticated. Investigator™ is written in plain English and designed for anyone — whether this is your first investment or you have been investing for years.</p>
+  <div class="who-grid">
+    <div class="who-card">
+      <div class="who-card-title">You've been approached unexpectedly</div>
+      <div class="who-card-body">Cold call, social media advert, WhatsApp message, or a friend who's "made a lot of money." Unsolicited contact is one of the most common routes into investment fraud.</div>
+    </div>
+    <div class="who-card">
+      <div class="who-card-title">Something doesn't feel quite right</div>
+      <div class="who-card-body">You can't fully explain what you're investing in, you're feeling rushed, or you've been told to keep it quiet. These feelings matter — this tool helps you name what's bothering you.</div>
+    </div>
+    <div class="who-card">
+      <div class="who-card-title">You want to check before you commit</div>
+      <div class="who-card-body">The investment might be entirely legitimate. Investigator™ helps you confirm that — systematically, independently, and in your own time.</div>
+    </div>
+    <div class="who-card">
+      <div class="who-card-title">You've already invested and have concerns</div>
+      <div class="who-card-body">It's not too late to use this tool. The summary and next-steps guidance can help you understand your position and what to do if something has gone wrong.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- Seven stages -->
+<div class="section">
+  <div class="section-label">How it works</div>
+  <h2 class="section-heading">Seven stages of independent review</h2>
+  <p class="section-body">Each stage builds on the last. You can upload a prospectus or terms document at the start and Investigator™ will read it and pre-fill what it can — so you are not starting from a blank page.</p>
+
+  <div class="stages-wrap" role="list">
+
+    <div class="stage-row" role="listitem">
+      <div class="stage-num" aria-hidden="true">1</div>
+      <div class="stage-content">
+        <div class="stage-title">Document and basics</div>
+        <div class="stage-desc">Upload a prospectus, photograph a printed page, or enter the investment details manually. We extract key terms — promised return, lock-up period, FSCS status, offshore registration — and flag what we find before you answer a single question.</div>
+      </div>
+    </div>
+
+    <div class="stage-row" role="listitem">
+      <div class="stage-num" aria-hidden="true">2</div>
+      <div class="stage-content">
+        <div class="stage-title">Client classification</div>
+        <div class="stage-desc">Are you being asked to sign a "sophisticated investor" or "high net worth" self-certification? Many people do not realise this removes most FCA retail protections — including the right to complain to the Financial Ombudsman. This stage explains what you may be waiving and whether you genuinely meet the legal criteria.</div>
+      </div>
+    </div>
+
+    <div class="stage-row" role="listitem">
+      <div class="stage-num" aria-hidden="true">3</div>
+      <div class="stage-content">
+        <div class="stage-title">Consent and pressure</div>
+        <div class="stage-desc">Genuine informed consent requires time, full information, and real freedom to say no. This stage checks whether those conditions are present — and names the tactics that are sometimes used to undermine them.</div>
+      </div>
+    </div>
+
+    <div class="stage-row" role="listitem">
+      <div class="stage-num" aria-hidden="true">4</div>
+      <div class="stage-content">
+        <div class="stage-title">Offshore and jurisdictional risk</div>
+        <div class="stage-desc">Offshore registration is not automatically a problem — but it adds significant risk around regulatory oversight, compensation cover, and whether you could ever enforce a legal judgment if things go wrong. Some territories offer regulatory cover in name only.</div>
+      </div>
+    </div>
+
+    <div class="stage-row" role="listitem">
+      <div class="stage-num" aria-hidden="true">5</div>
+      <div class="stage-content">
+        <div class="stage-title">Automated public checks</div>
+        <div class="stage-desc">Ten one-click searches — FCA Register, FCA Warning List, ScamSmart, Companies House, disqualified directors, Action Fraud, MoneySavingExpert forum, domain age, Financial Ombudsman eligibility, and an independent web search — all pre-filled with the firm name so nothing is left to chance.</div>
+      </div>
+    </div>
+
+    <div class="stage-row" role="listitem">
+      <div class="stage-num" aria-hidden="true">6</div>
+      <div class="stage-content">
+        <div class="stage-title">Asymmetry and consequences</div>
+        <div class="stage-desc">Every investment agreement has two sides. This stage maps who controls access to your money, who bears the risk if things go wrong, and what the real-life consequences of a loss would be — not just the financial impact, but the life impact.</div>
+      </div>
+    </div>
+
+    <div class="stage-row" role="listitem">
+      <div class="stage-num" aria-hidden="true">7</div>
+      <div class="stage-content">
+        <div class="stage-title">Your investigation summary</div>
+        <div class="stage-desc">A plain-language picture of everything you have found — with a risk score, consequence cards specific to your situation, and clear next steps. Print it, save it as a PDF, or share it with someone you trust. Every summary carries a unique reference number and a date and time stamp.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- What it checks -->
+<div class="section">
+  <div class="section-label">Public data sources</div>
+  <h2 class="section-heading">Ten checks from public data — automatically, in one place</h2>
+  <p class="section-body">Investigator™ does not replace your own judgement. But it removes the friction from the checks that matter most — so nothing gets skipped because it felt too complicated.</p>
+  <div class="checks-grid" role="list">
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">🏛</span>FCA Register</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">🛡</span>FCA Warning List</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">🔎</span>FCA ScamSmart</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">🏢</span>Companies House</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">👤</span>Disqualified directors</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">🚩</span>Action Fraud</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">💬</span>MoneySavingExpert forum</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">🌐</span>Domain age (WHOIS)</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">⚖</span>Financial Ombudsman</div>
+    <div class="check-pill" role="listitem"><span class="check-pill-icon">🔍</span>Independent web search</div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- Principles -->
+<div class="section">
+  <div class="section-label">How we approach this</div>
+  <h2 class="section-heading">A few things you should know about how Investigator™ works</h2>
+  <div class="principles-list" role="list">
+
+    <div class="principle" role="listitem">
+      <div class="principle-mark" aria-hidden="true"></div>
+      <div class="principle-text">
+        <div class="principle-title">It supports your judgement — it does not replace it</div>
+        <div class="principle-body">Investigator™ helps you see more clearly. It asks good questions, surfaces public information, and names things that are sometimes hard to name. But the decision is always yours. No tool can make it for you, and any tool that claims to is either oversimplifying or misleading you.</div>
+      </div>
+    </div>
+
+    <div class="principle" role="listitem">
+      <div class="principle-mark" aria-hidden="true"></div>
+      <div class="principle-text">
+        <div class="principle-title">Nothing you enter is stored or shared</div>
+        <div class="principle-body">Your answers live only in your browser session. Nothing is sent to a server, nothing is logged, and there is no account to create. The only data that leaves your device is a document you choose to upload for analysis — and that is used only to extract key terms, not stored anywhere.</div>
+      </div>
+    </div>
+
+    <div class="principle" role="listitem">
+      <div class="principle-mark" aria-hidden="true"></div>
+      <div class="principle-text">
+        <div class="principle-title">A clean result does not mean a safe investment</div>
+        <div class="principle-body">Investigator™ checks what is publicly available and asks questions about what you have been told. It cannot verify claims that are not yet on record, and sophisticated fraud often passes basic checks in its early stages. Use this tool as a floor, not a ceiling.</div>
+      </div>
+    </div>
+
+    <div class="principle" role="listitem">
+      <div class="principle-mark" aria-hidden="true"></div>
+      <div class="principle-text">
+        <div class="principle-title">It is not regulated financial advice</div>
+        <div class="principle-body">Investigator™ is a public-interest due diligence tool, not a regulated advice service. If you need regulated advice — and for significant investment decisions you should — seek an independent financial adviser who is authorised by the FCA and not connected to the investment you are considering.</div>
+      </div>
+    </div>
+
+    <div class="principle" role="listitem">
+      <div class="principle-mark" aria-hidden="true"></div>
+      <div class="principle-text">
+        <div class="principle-title">It is completely free</div>
+        <div class="principle-body">Investigator™ is a public-interest tool from the Academy of Life Planning. There is no subscription, no premium tier, and no upsell. It exists because access to clear, independent thinking about financial decisions should not depend on how much money you already have.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Get SAFE band -->
+<div class="get-safe-band">
+  <div class="get-safe-inner">
+    <img class="get-safe-img" src="assets/icon.png" alt="Get SAFE">
+    <div>
+      <div class="get-safe-label">If things have already gone wrong</div>
+      <h2 class="get-safe-heading">Get SAFE — Support After Financial Exploitation</h2>
+      <p class="get-safe-body">
+        Investment fraud causes real harm — not just financial, but emotional, relational, and psychological. Get SAFE is a free, trauma-informed support service for anyone who has been affected by financial exploitation or investment fraud.
+      </p>
+      <p class="get-safe-body" style="margin-top:10px">
+        If you or someone you know has lost money to a suspected scam, or is under pressure to invest in something that doesn't feel right, Get SAFE can help you stabilise, understand your position, and work out what to do next.
+      </p>
+      <a class="get-safe-link" href="https://getsafe.org.uk">Visit getsafe.org.uk →</a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA band -->
+<div class="cta-band">
+  <h2 class="cta-heading">Ready to investigate?</h2>
+  <p class="cta-sub">Takes around 15 minutes. Free. No account. Nothing stored. Print your summary at the end.</p>
+  <a class="cta-btn" href="index.html">Begin the review →</a>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-logo">
+    <img src="assets/icon.png" alt="Investigator logo" width="28" height="28">
+    <span class="footer-logo-name">Investigator™</span>
+  </div>
+  <p class="footer-text">
+    Investigator™ is a free, AI-assisted due diligence tool from the <strong>Academy of Life Planning</strong>.
+    It is not financial advice, not legal advice, and not an FCA-regulated service.
+    All investments carry risk. For regulated advice, consult an FCA-authorised independent financial adviser.
+  </p>
+  <div style="display:flex;justify-content:center;gap:20px;margin-top:12px;flex-wrap:wrap;">
+    <a href="index.html" style="font-size:12px;color:#6b7fa8;text-underline-offset:2px;">Start your review</a>
+    <a href="about.html" style="font-size:12px;color:#6b7fa8;text-underline-offset:2px;">About</a>
+    <a href="terms.html" style="font-size:12px;color:#6b7fa8;text-underline-offset:2px;">Terms of Use</a>
+    <a href="privacy.html" style="font-size:12px;color:#6b7fa8;text-underline-offset:2px;">Privacy Notice</a>
+  </div>
+</footer>
+
+</body>
+</html>

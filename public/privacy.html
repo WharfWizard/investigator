@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Investigator™ Privacy Notice — what data we collect, what we don't, and how documents you upload are handled.">
+  <title>Privacy Notice — Investigator™</title>
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:      #1a2e52;
+      --navy-mid:  #243a63;
+      --gold:      #f5c518;
+      --gold-dark: #c9a010;
+      --green:     #1a7a4a;
+      --green-pale:#e2f4eb;
+      --text:      #1a2e52;
+      --text-mid:  #3d5280;
+      --text-muted:#6b7fa8;
+      --border:    #d0d8e8;
+      --surface:   #f4f6fb;
+      --white:     #ffffff;
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Nav */
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-brand img { width: 34px; height: 34px; border-radius: 8px; }
+    .nav-brand-name { font-size: 15px; font-weight: 700; color: var(--navy); }
+    .nav-brand-name sup { font-size: 10px; font-weight: 500; }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 6px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--navy-mid); }
+
+    /* Page hero */
+    .page-hero {
+      background: var(--navy);
+      padding: 52px 24px 44px;
+    }
+    .page-hero-inner { max-width: 720px; margin: 0 auto; }
+    .page-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .page-title {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .page-meta { font-size: 13px; color: rgba(255,255,255,.5); }
+
+    /* Content */
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 72px;
+    }
+    .content h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 40px 0 10px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .content h2:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .content p {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    .content p:last-child { margin-bottom: 0; }
+    .content ul {
+      margin: 10px 0 14px 20px;
+    }
+    .content ul li {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 6px;
+    }
+    .content strong { color: var(--navy); font-weight: 600; }
+    .content a { color: var(--navy); text-underline-offset: 3px; }
+
+    /* Standout — plain notice */
+    .standout {
+      background: var(--surface);
+      border-left: 3px solid var(--navy);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 0 0 32px;
+    }
+    .standout p {
+      font-size: 14px;
+      color: var(--navy);
+      margin: 0;
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    /* Short answer cards — plain facts at a glance */
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 24px 0 8px;
+    }
+    .fact-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      background: var(--white);
+    }
+    .fact-question {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 5px;
+    }
+    .fact-answer {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .fact-answer.positive { color: var(--green); }
+
+    /* Footer */
+    .site-footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .footer-logo img { width: 26px; height: 26px; border-radius: 6px; }
+    .footer-logo-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .footer-legal {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    @media (max-width: 560px) {
+      .page-hero { padding: 36px 20px 32px; }
+      .content { padding: 40px 20px 56px; }
+    }
+    a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a class="nav-brand" href="index.html">
+    <img src="assets/icon.png" alt="Investigator logo" width="34" height="34">
+    <span class="nav-brand-name">Investigator<sup>™</sup></span>
+  </a>
+  <a class="nav-cta" href="index.html">Start your review →</a>
+</nav>
+
+<header class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-eyebrow">Legal</div>
+    <h1 class="page-title">Privacy Notice</h1>
+    <p class="page-meta">Investigator™ — Academy of Life Planning &nbsp;·&nbsp; Effective from 2025</p>
+  </div>
+</header>
+
+<main class="content">
+
+  <div class="standout">
+    <p>The short version: Investigator™ does not collect, store, or share your personal data. Your answers live only in your browser session. Nothing you type or select is sent to any server. The only exception is documents you choose to upload for analysis — and those are explained in full below.</p>
+  </div>
+
+  <h2>At a glance</h2>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-question">Account required?</div>
+      <div class="fact-answer positive">No</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-question">Personal data collected?</div>
+      <div class="fact-answer positive">None</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-question">Answers stored?</div>
+      <div class="fact-answer positive">No — browser only</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-question">Cookies used?</div>
+      <div class="fact-answer positive">None</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-question">Data sold or shared?</div>
+      <div class="fact-answer positive">Never</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-question">Documents uploaded?</div>
+      <div class="fact-answer">Sent to AI for analysis only — not stored</div>
+    </div>
+  </div>
+
+  <h2>Who we are</h2>
+  <p>Investigator™ is a tool created and operated by the <strong>Academy of Life Planning</strong>. In the context of this Privacy Notice, "we", "us", and "our" refer to the Academy of Life Planning.</p>
+  <p>Investigator™ is a public-interest tool provided free of charge. It does not carry advertising and does not generate revenue from user data.</p>
+
+  <h2>What data we collect — and what we don't</h2>
+  <p>Investigator™ is designed to collect as little data as possible. Specifically:</p>
+  <ul>
+    <li><strong>Your answers to questions</strong> are held only in your browser's session memory. They are never sent to any server operated by us, and they are deleted when you close or refresh the page.</li>
+    <li><strong>Text you type</strong> — including firm names, your reason for considering the investment, and any other free-text responses — is treated the same way. It stays in your browser.</li>
+    <li><strong>Your name, email address, location, and any other identifying information</strong> are never requested, never collected, and never stored.</li>
+    <li><strong>Cookies</strong> are not used on this site. No tracking, no analytics cookies, no advertising cookies.</li>
+    <li><strong>Server logs</strong> may record basic request information (IP address, browser type, page visited, time of visit) as a standard function of web hosting via Vercel. This data is not linked to your identity, is not used for profiling, and is subject to Vercel's privacy policy at <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a>.</li>
+  </ul>
+
+  <h2>Documents you upload</h2>
+  <p>If you choose to upload a PDF or photograph a document in Stage 1, the following happens:</p>
+  <ul>
+    <li>Your document is converted to a base64-encoded format in your browser.</li>
+    <li>It is sent over an encrypted connection (HTTPS) to a secure server function operated by us on Vercel's infrastructure.</li>
+    <li>From there, it is passed to the <strong>Anthropic Claude API</strong> for analysis. Anthropic's AI reads the document and returns a structured set of findings — key terms, risk indicators, and pre-fillable data.</li>
+    <li>The document is <strong>not stored</strong> by us, by our server function, or (under standard API usage) by Anthropic. It exists in memory only for the duration of the API call.</li>
+    <li>The findings returned by the API are displayed to you in your browser and then discarded when your session ends.</li>
+  </ul>
+  <p>We strongly recommend that you <strong>do not upload documents containing sensitive personal information</strong> beyond what is necessary to describe the investment — for example, do not upload documents that include your National Insurance number, bank account details, passport information, or similar. Investigator™ needs only the investment-related content of a document to function.</p>
+  <p>For full details of how Anthropic handles data submitted to its API, please refer to Anthropic's privacy policy at <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener">anthropic.com/privacy</a> and their API usage policies.</p>
+
+  <h2>Third-party links</h2>
+  <p>Investigator™ provides one-click links to third-party public data sources including the FCA Register, Companies House, Action Fraud, MoneySavingExpert, Google, and others. When you click these links, you leave Investigator™ and are subject to the privacy policies of those third-party sites.</p>
+  <p>We do not pass any information about you to these third-party sites when you click their links.</p>
+
+  <h2>Children</h2>
+  <p>Investigator™ is not directed at children under the age of 18. We do not knowingly collect any data from children.</p>
+
+  <h2>Your rights</h2>
+  <p>Because Investigator™ does not collect or store personal data about you, most data subject rights under UK GDPR (access, rectification, erasure, portability) are not applicable in practice — there is no data about you for us to provide, correct, or delete.</p>
+  <p>If you have a concern about how this tool handles data, or believe data about you has been processed that you are not aware of, please contact us and we will respond promptly.</p>
+
+  <h2>Changes to this notice</h2>
+  <p>We may update this Privacy Notice from time to time — for example, if we add new features or if legal requirements change. The effective date at the top of this page will reflect the most recent revision. We will not introduce data collection practices without updating this notice first.</p>
+
+  <h2>Contact</h2>
+  <p>If you have questions about this Privacy Notice or about how Investigator™ handles data, please contact the Academy of Life Planning at <a href="https://academyoflifeplanning.com" target="_blank" rel="noopener">academyoflifeplanning.com</a>.</p>
+  <p>If you have been affected by investment fraud or financial exploitation and need support, please visit <a href="https://getsafe.org.uk" target="_blank" rel="noopener">getsafe.org.uk</a>.</p>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-logo">
+    <img src="assets/icon.png" alt="Investigator logo" width="26" height="26">
+    <span class="footer-logo-name">Investigator™</span>
+  </div>
+  <p class="footer-legal">
+    Investigator™ is a free, AI-assisted due diligence tool. It is not financial advice, not legal advice, and not an FCA-regulated service. All investments carry risk. For regulated advice, consult an FCA-authorised independent financial adviser.
+  </p>
+  <div class="footer-links">
+    <a href="index.html">Start your review</a>
+    <a href="about.html">About</a>
+    <a href="terms.html">Terms of Use</a>
+    <a href="privacy.html">Privacy Notice</a>
+  </div>
+</footer>
+
+</body>
+</html>

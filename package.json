@@ -1,0 +1,9 @@
+{
+  "name": "investigator",
+  "version": "1.0.0",
+  "description": "Investigator™ — Investment due diligence for everyone. Academy of Life Planning.",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Investigator™ — structured investment due diligence for everyone. Seven stages of independent review before you commit any money.">
+  <title>Investigator™ — Investment Due Diligence</title>
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<main class="app-shell" role="main">
+
+  <!-- App header -->
+  <header class="app-header">
+    <img src="assets/icon.png" alt="Investigator logo" width="52" height="52">
+    <div class="header-text">
+      <div class="header-eyebrow">Academy of Life Planning</div>
+      <div class="header-title">Investigator<sup>™</sup></div>
+      <div class="header-sub">Investment due diligence — seven stages of independent review &nbsp;·&nbsp; <a href="about.html" style="color:inherit;text-underline-offset:2px;">What is this?</a></div>
+    </div>
+  </header>
+
+  <!-- Progress -->
+  <div class="progress-wrap no-print">
+    <div class="progress-track" id="progress-track"></div>
+    <div class="progress-meta">
+      <span id="progress-label">Stage 1 of 7</span>
+      <span>Take your time — there are no right answers, only clearer ones</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       STAGE 1 — Document & basics
+  ══════════════════════════════════ -->
+  <section class="section active" id="s0" aria-label="Stage 1: Document and basics">
+    <div class="section-eyebrow">Stage 1 of 7 — Document &amp; basics</div>
+    <h1 class="section-heading">Let's start with the investment</h1>
+    <p class="section-desc">Upload a prospectus or terms document if you have one — Investigator will read it and pre-fill what it can. Or enter the details manually below.</p>
+
+    <!-- Upload zone -->
+    <div class="upload-zone" id="drop-zone" onclick="triggerUpload()" role="button" tabindex="0" aria-label="Upload document">
+      <div class="upload-icon">📄</div>
+      <div class="upload-title">Drop a PDF or image here</div>
+      <div class="upload-sub">Prospectus, investment summary, terms document, or scanned page</div>
+      <div class="upload-actions" onclick="event.stopPropagation()">
+        <button class="upload-btn primary" onclick="triggerUpload()">↑ Choose file</button>
+        <button class="upload-btn" onclick="triggerCamera()">📷 Use camera</button>
+      </div>
+    </div>
+    <input type="file" id="file-input" accept=".pdf,image/*" style="display:none" onchange="handleFileInput(this)">
+    <input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none" onchange="handleFileInput(this)">
+
+    <div id="file-preview" style="display:none" class="file-preview"></div>
+    <div id="analysis-output" style="display:none"></div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      <label class="q-label" for="firm-name">Firm and investment name</label>
+      <div class="q-hint">Used in Stage 5 to pre-build your public data searches. If pre-filled from your document, check it is correct.</div>
+      <input class="q-input" id="firm-name" type="text" placeholder="e.g. XYZ Capital Ltd — Property Bond 2026" oninput="state.answers.firm=this.value" autocomplete="off">
+    </div>
+
+    <div class="question">
+      <div class="q-label">Where is the investment based or regulated?</div>
+      <div class="q-hint">Your best understanding at this stage — we explore this further in Stage 4.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'jurisdiction','uk')">UK</button>
+        <button class="q-btn" onclick="pick(this,'jurisdiction','eea')">EU / EEA</button>
+        <button class="q-btn" onclick="pick(this,'jurisdiction','offshore')">Offshore / international</button>
+        <button class="q-btn" onclick="pick(this,'jurisdiction','unclear')">Unclear</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">How did this come to your attention?</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'contact','own')">Found it myself</button>
+        <button class="q-btn" onclick="pick(this,'contact','adviser')">My regulated adviser</button>
+        <button class="q-btn" onclick="pick(this,'contact','friend')">Friend or family</button>
+        <button class="q-btn" onclick="pick(this,'contact','cold')">Cold call / unsolicited</button>
+        <button class="q-btn" onclick="pick(this,'contact','social')">Social media / advert</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">How much are you considering investing, relative to your overall savings?</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'amount','small')">Small — could afford to lose it</button>
+        <button class="q-btn" onclick="pick(this,'amount','significant')">Significant portion of savings</button>
+        <button class="q-btn" onclick="pick(this,'amount','major')">Most or all of my liquid savings</button>
+        <button class="q-btn" onclick="pick(this,'amount','borrowed')">Money I would need to borrow</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STAGE 2 — Client classification
+  ══════════════════════════════════ -->
+  <section class="section" id="s1" aria-label="Stage 2: Client classification">
+    <div class="section-eyebrow">Stage 2 of 7 — Client classification</div>
+    <h2 class="section-heading">Are you being asked to waive your protections?</h2>
+    <p class="section-desc">Being asked to self-certify as a "sophisticated" or "high net worth" investor is a significant legal act — not a formality. It removes most FCA retail protections.</p>
+
+    <div class="notice warn">
+      <span class="notice-icon">⚠</span>
+      <span>Signing a self-certification removes your right to complain to the Financial Ombudsman, eliminates FSCS protection, and may mean you have no recourse if you suffer a loss.</span>
+    </div>
+
+    <div id="classif-prefill"></div>
+
+    <div class="question">
+      <div class="q-label">
+        Are you being asked to sign any of the following?
+        <span id="classif-tag" class="prefill-tag" style="display:none">✦ Pre-filled from document</span>
+      </div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pickMulti(this,'classif','sophisticated')">"Sophisticated investor" self-certification</button>
+        <button class="q-btn" onclick="pickMulti(this,'classif','hnw')">"High net worth individual" declaration (income £100k+ or assets £250k+)</button>
+        <button class="q-btn" onclick="pickMulti(this,'classif','restricted')">"Restricted investor" self-certification (max 10% of net assets in high-risk investments)</button>
+        <button class="q-btn" onclick="pickMulti(this,'classif','professional')">"Professional client" or "elective professional" classification</button>
+        <button class="q-btn" onclick="pickMulti(this,'classif','none')">None of these / not asked to sign anything</button>
+        <button class="q-btn" onclick="pickMulti(this,'classif','unsure')">Unsure — there is paperwork but I have not read it carefully</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Do you genuinely meet the criteria for that classification?</div>
+      <div class="q-hint">High net worth: net assets over £250,000 (excluding home and pension) or annual income over £100,000. Sophisticated: prior investment in unlisted companies, or director of a company with £1m+ turnover, or certified by an FCA-authorised firm in the last 36 months.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'criteria','yes')">Yes, I genuinely meet the criteria</button>
+        <button class="q-btn" onclick="pick(this,'criteria','marginal')">Borderline — it is close</button>
+        <button class="q-btn" onclick="pick(this,'criteria','no')">No, I do not think I do</button>
+        <button class="q-btn" onclick="pick(this,'criteria','na')">Not applicable</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Were you clearly told what protections you are waiving by signing?</div>
+      <div class="q-hint">A legitimate firm will explain this explicitly. Rushing you through paperwork or burying it in small print is a warning sign.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'waiver-explained','yes')">Yes — explained clearly and in plain language</button>
+        <button class="q-btn" onclick="pick(this,'waiver-explained','partial')">Mentioned but not explained</button>
+        <button class="q-btn" onclick="pick(this,'waiver-explained','no')">Not mentioned at all</button>
+        <button class="q-btn" onclick="pick(this,'waiver-explained','na')">Not applicable</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Were you given adequate time to read and consider the classification documents?</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'classif-time','yes')">Yes, plenty of time</button>
+        <button class="q-btn" onclick="pick(this,'classif-time','rushed')">Felt rushed or pressured to sign quickly</button>
+        <button class="q-btn" onclick="pick(this,'classif-time','na')">Not applicable</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STAGE 3 — Consent & pressure
+  ══════════════════════════════════ -->
+  <section class="section" id="s2" aria-label="Stage 3: Consent and pressure">
+    <div class="section-eyebrow">Stage 3 of 7 — Consent &amp; pressure</div>
+    <h2 class="section-heading">Are the conditions for genuine consent present?</h2>
+    <p class="section-desc">Informed consent requires time, full information, and genuine freedom. These questions test whether those conditions exist.</p>
+
+    <div class="notice info">
+      <span class="notice-icon">ℹ</span>
+      <span>If you feel rushed, watched, or embarrassed to say no — those feelings are sometimes deliberately engineered. You are entitled to take as long as you need before making any decision.</span>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Have you been given a deadline or sense of urgency?</div>
+      <div class="q-hint">"Offer closes Friday" and "only three places left" are pressure tactics, not real constraints. Legitimate investments do not expire in 48 hours.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'urgency','none')">No pressure at all</button>
+        <button class="q-btn" onclick="pick(this,'urgency','soft')">Some time pressure mentioned</button>
+        <button class="q-btn" onclick="pick(this,'urgency','strong')">Strong urgency — act now or lose out</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Have you been discouraged from seeking independent advice?</div>
+      <div class="q-hint">"Advisers won't understand this" or "this is exclusive — don't mention it to your IFA" are serious warning signs.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'advice-blocked','no')">No — independent advice is welcomed</button>
+        <button class="q-btn" onclick="pick(this,'advice-blocked','soft')">Subtly discouraged</button>
+        <button class="q-btn" onclick="pick(this,'advice-blocked','yes')">Actively discouraged or told not to ask</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Do you feel genuinely free to say no without consequence?</div>
+      <div class="q-hint">Social obligation, fear of embarrassment, or concern about a relationship can undermine real consent — even without anyone saying anything explicit.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'freedom','yes')">Yes, completely free</button>
+        <button class="q-btn" onclick="pick(this,'freedom','partly')">Partly — some social or relational pressure</button>
+        <button class="q-btn" onclick="pick(this,'freedom','no')">Not really free to say no</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Have you been asked to keep this investment confidential?</div>
+      <div class="q-hint">Being told not to tell your family, partner, or adviser about an investment is one of the clearest indicators of a scam. Legitimate investments do not require secrecy.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'secrecy','no')">No</button>
+        <button class="q-btn" onclick="pick(this,'secrecy','yes')">Yes — asked to keep it quiet</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Has anyone offered early returns, a bonus, or a "taster" payment?</div>
+      <div class="q-hint">Early payments funded by new investors — not genuine returns — are a hallmark of Ponzi structures. Receiving money early can feel reassuring, but it is not evidence the underlying investment is real.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'early-returns','no')">No</button>
+        <button class="q-btn" onclick="pick(this,'early-returns','yes')">Yes — early payment offered or already received</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STAGE 4 — Offshore risk
+  ══════════════════════════════════ -->
+  <section class="section" id="s3" aria-label="Stage 4: Offshore and jurisdictional risk">
+    <div class="section-eyebrow">Stage 4 of 7 — Offshore &amp; jurisdictional risk</div>
+    <h2 class="section-heading">Where does this investment actually sit?</h2>
+    <p class="section-desc">Offshore registration is not automatically a problem — but it adds layers of risk around regulatory oversight, compensation cover, and your ability to seek redress if things go wrong.</p>
+
+    <div id="offshore-prefill"></div>
+
+    <div class="question">
+      <div class="q-label">
+        Where is the investment vehicle registered or domiciled?
+        <span id="offshore-tag" class="prefill-tag" style="display:none">✦ Pre-filled from document</span>
+      </div>
+      <div class="q-hint">This may differ from where the firm marketing it is based. Check the prospectus or Key Information Document — not the website.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'domicile','uk')">United Kingdom</button>
+        <button class="q-btn" onclick="pick(this,'domicile','eea')">EU / EEA (e.g. Ireland, Luxembourg, Netherlands)</button>
+        <button class="q-btn" onclick="pick(this,'domicile','established')">Major established jurisdiction (US, Singapore, Australia, Canada)</button>
+        <button class="q-btn" onclick="pick(this,'domicile','cayman')">Cayman Islands / British Virgin Islands / Channel Islands / Isle of Man</button>
+        <button class="q-btn" onclick="pick(this,'domicile','thin')">Vanuatu / Belize / Seychelles / Marshall Islands / Panama or similar</button>
+        <button class="q-btn" onclick="pick(this,'domicile','unknown')">Unknown / not disclosed in any document</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Is an overseas regulator named — and is it a genuine, active regulator?</div>
+      <div class="q-hint">Some jurisdictions have regulatory frameworks that exist on paper but offer little practical oversight or enforcement. A logo on a website is not the same as genuine regulatory cover.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'overseas-reg','strong')">Named regulator with a real enforcement track record</button>
+        <button class="q-btn" onclick="pick(this,'overseas-reg','nominal')">Named but oversight is likely nominal</button>
+        <button class="q-btn" onclick="pick(this,'overseas-reg','none')">No regulator named at all</button>
+        <button class="q-btn" onclick="pick(this,'overseas-reg','na')">Not applicable — UK regulated</button>
+        <button class="q-btn" onclick="pick(this,'overseas-reg','unknown')">Unknown</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Is there a compensation scheme that would apply if the investment fails?</div>
+      <div class="q-hint">The UK FSCS covers up to £85,000 for regulated investments. Many offshore structures have no equivalent — or a nominal one with no real funding behind it.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'comp','fscs')">UK FSCS applies — confirmed</button>
+        <button class="q-btn" onclick="pick(this,'comp','overseas-real')">Named overseas scheme with credible, genuine cover</button>
+        <button class="q-btn" onclick="pick(this,'comp','overseas-thin')">Named overseas scheme — but coverage is unclear or limited</button>
+        <button class="q-btn" onclick="pick(this,'comp','none')">No compensation scheme applies</button>
+        <button class="q-btn" onclick="pick(this,'comp','unknown')">Unknown</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">If there is a dispute, which country's courts would hear it?</div>
+      <div class="q-hint">Contracts specifying an offshore or remote jurisdiction may be practically unenforceable for a UK investor — even if you are legally in the right. A court judgment you cannot enforce is not real protection.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'legal-juris','uk')">UK courts</button>
+        <button class="q-btn" onclick="pick(this,'legal-juris','accessible')">Accessible overseas jurisdiction (EU, US, Australia)</button>
+        <button class="q-btn" onclick="pick(this,'legal-juris','remote')">Remote or offshore jurisdiction</button>
+        <button class="q-btn" onclick="pick(this,'legal-juris','unknown')">Unknown / not stated in documents</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Is there a UK-regulated entity that is actually responsible to you in the chain?</div>
+      <div class="q-hint">A UK firm marketing an offshore product may itself be FCA-regulated — but that does not make the underlying investment regulated. What matters is what the UK entity is legally responsible for.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'uk-entity','yes-responsible')">Yes — responsible for the investment itself</button>
+        <button class="q-btn" onclick="pick(this,'uk-entity','yes-marketing')">Yes — but it is only marketing the investment, not responsible for it</button>
+        <button class="q-btn" onclick="pick(this,'uk-entity','no')">No UK-regulated entity in the chain</button>
+        <button class="q-btn" onclick="pick(this,'uk-entity','unknown')">Unknown</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STAGE 5 — Automated public checks
+  ══════════════════════════════════ -->
+  <section class="section" id="s4" aria-label="Stage 5: Automated public checks">
+    <div class="section-eyebrow">Stage 5 of 7 — Automated public checks</div>
+    <h2 class="section-heading">What public data says — one click per check</h2>
+    <p class="section-desc">Each button opens the right source with your firm name pre-filled where possible. Open the link, review what you find, then mark the result below it. These feed into your final summary.</p>
+    <div id="auto-checks"></div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STAGE 6 — Asymmetry & consequences
+  ══════════════════════════════════ -->
+  <section class="section" id="s5" aria-label="Stage 6: Asymmetry and consequences">
+    <div class="section-eyebrow">Stage 6 of 7 — Asymmetry &amp; consequences</div>
+    <h2 class="section-heading">Who controls what — and what happens if it goes wrong</h2>
+    <p class="section-desc">Every investment agreement has two sides. This stage maps the structural imbalance and the real-life consequences of a loss — before you decide.</p>
+
+    <div class="sub-label">Power and information asymmetry</div>
+    <div class="asym-row">
+      <span class="asym-label">Who controls when you can access your money?</span>
+      <span class="asym-you">You → if liquid</span>
+      <span class="asym-them">Them → if locked</span>
+    </div>
+    <div class="asym-row">
+      <span class="asym-label">Who is legally liable if the investment fails?</span>
+      <span class="asym-you">You → if unregulated</span>
+      <span class="asym-them">Them → if regulated + FSCS</span>
+    </div>
+    <div class="asym-row">
+      <span class="asym-label">Who determines whether returns are paid?</span>
+      <span class="asym-you">You → if contractual</span>
+      <span class="asym-them">Them → if discretionary</span>
+    </div>
+    <div class="asym-row">
+      <span class="asym-label">Who has access to full information about the investment?</span>
+      <span class="asym-you">You → if fully disclosed</span>
+      <span class="asym-them">Them → if opaque</span>
+    </div>
+    <div class="asym-row">
+      <span class="asym-label">Who bears the financial loss if this is wrong?</span>
+      <span class="asym-you">Almost always you</span>
+      <span class="asym-them">Rarely them</span>
+    </div>
+
+    <div class="question" style="margin-top:14px">
+      <div class="q-label">Looking at those five: how many asymmetries favour the other party?</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'asym','0-1')">0–1 unfavourable to me</button>
+        <button class="q-btn" onclick="pick(this,'asym','2-3')">2–3 unfavourable to me</button>
+        <button class="q-btn" onclick="pick(this,'asym','4-5')">4–5 unfavourable to me</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      <div class="q-label">If you lost all of this money, what would the real impact be on your life?</div>
+      <div class="q-hint">Not a financial impact — a life impact. Housing security, retirement plans, relationships, options that would be closed off.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'loss-impact','manageable')">Painful but recoverable — I could rebuild over time</button>
+        <button class="q-btn" onclick="pick(this,'loss-impact','serious')">Serious — it would significantly change my plans and options</button>
+        <button class="q-btn" onclick="pick(this,'loss-impact','severe')">Severe — it would be life-altering and very difficult to recover from</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Do you understand the exit terms — and have you actually read them?</div>
+      <div class="q-hint">Early exit fees, penalty clauses, and automatic rollovers are sometimes buried in small print. Not reading the terms is itself a risk.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'exit','clear')">Yes — I have read them and they are clear and fair</button>
+        <button class="q-btn" onclick="pick(this,'exit','complex')">Yes — I have read them but they are complex or unclear</button>
+        <button class="q-btn" onclick="pick(this,'exit','none')">No visible exit clause in the documents I have seen</button>
+        <button class="q-btn" onclick="pick(this,'exit','unread')">I have not read the terms and conditions</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Do you understand what happens to your money if the company becomes insolvent?</div>
+      <div class="q-hint">In many unregulated investments, investors are unsecured creditors — often the last to receive anything after administrators, HMRC, and secured lenders are paid.</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'insolvency','yes')">Yes, I understand clearly</button>
+        <button class="q-btn" onclick="pick(this,'insolvency','partial')">Partially — I am not entirely sure</button>
+        <button class="q-btn" onclick="pick(this,'insolvency','no')">No — I do not know what would happen</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">What is your honest reason for considering this investment?</div>
+      <div class="q-hint">There is no wrong answer. Naming the real reason — income need, fear of missing out, trust in a person, hope for something better — helps you check whether this product actually meets that need.</div>
+      <textarea class="q-textarea" id="t-reason" placeholder="e.g. I need income to supplement my pension and this offered a better rate than my savings account…" oninput="state.answers.reason=this.value"></textarea>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STAGE 7 — Summary
+  ══════════════════════════════════ -->
+  <section class="section" id="s6" aria-label="Stage 7: Investigation summary">
+    <div class="section-eyebrow">Stage 7 of 7 — Investigation summary</div>
+    <h2 class="section-heading">Your plain-language picture</h2>
+    <p class="section-desc">Based on what you have worked through. This supports your independent thinking — it does not replace regulated financial advice.</p>
+    <div id="summary"></div>
+  </section>
+
+  <!-- Navigation -->
+  <nav class="nav-bar no-print" aria-label="Stage navigation">
+    <button class="nav-back" id="nav-back" onclick="goBack()">← Back</button>
+    <span class="nav-stage" id="nav-stage">Stage 1 of 7</span>
+    <button class="nav-next" id="nav-next" onclick="goNext()">Continue →</button>
+  </nav>
+
+</main>
+
+<script src="app.js"></script>
+
+<!-- Footer -->
+<footer style="margin-top:48px;padding:28px 16px 40px;border-top:1px solid #d0d8e8;text-align:center;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;">
+    <img src="assets/icon.png" alt="Investigator logo" width="24" height="24" style="border-radius:5px;">
+    <span style="font-size:13px;font-weight:700;color:#1a2e52;">Investigator™</span>
+  </div>
+  <p style="font-size:12px;color:#6b7fa8;line-height:1.7;max-width:560px;margin:0 auto;">
+    Investigator™ is a free, AI-assisted due diligence tool from the Academy of Life Planning.
+    It is not financial advice, not legal advice, and not an FCA-regulated service.
+    All investments carry risk. For regulated advice, consult an FCA-authorised independent financial adviser.
+  </p>
+  <div style="display:flex;justify-content:center;gap:20px;margin-top:12px;flex-wrap:wrap;">
+    <a href="about.html" style="font-size:12px;color:#6b7fa8;text-underline-offset:2px;">About</a>
+    <a href="terms.html" style="font-size:12px;color:#6b7fa8;text-underline-offset:2px;">Terms of Use</a>
+    <a href="privacy.html" style="font-size:12px;color:#6b7fa8;text-underline-offset:2px;">Privacy Notice</a>
+  </div>
+</footer>
+
+</body>
+</html>

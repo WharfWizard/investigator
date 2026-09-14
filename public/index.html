@@ -129,13 +129,18 @@
 
     <div class="question">
       <div class="q-label">Do you genuinely meet the criteria for that classification?</div>
-      <div class="q-hint">High net worth: net assets over £250,000 (excluding home and pension) or annual income over £100,000. Sophisticated: prior investment in unlisted companies, or director of a company with £1m+ turnover, or certified by an FCA-authorised firm in the last 36 months.</div>
-      <div class="q-options">
-        <button class="q-btn" onclick="pick(this,'criteria','yes')">Yes, I genuinely meet the criteria</button>
-        <button class="q-btn" onclick="pick(this,'criteria','marginal')">Borderline — it is close</button>
-        <button class="q-btn" onclick="pick(this,'criteria','no')">No, I do not think I do</button>
-        <button class="q-btn" onclick="pick(this,'criteria','na')">Not applicable</button>
+      <div class="q-hint">Current legal thresholds for high net worth: net assets over £250,000 (excluding home and pension) or annual income over £100,000. The FCA has proposed raising these to £430,000 net assets or £170,000 income — people between the old and proposed thresholds are considered by the regulator to be at high risk of over-certifying. For sophisticated: prior investment in unlisted companies, director of a company with £1m+ turnover, or certified by an FCA-authorised firm in the last 36 months.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'criteria','yes-high')">Yes — I clearly meet or exceed the FCA proposed thresholds (£430k+ net assets or £170k+ income)</button>
+        <button class="q-btn" onclick="pick(this,'criteria','yes-band')">I meet the current legal threshold but not the FCA proposed higher threshold (between £250k–£430k assets or £100k–£170k income)</button>
+        <button class="q-btn" onclick="pick(this,'criteria','no')">No — I do not meet the current legal threshold</button>
+        <button class="q-btn" onclick="pick(this,'criteria','na')">Not applicable — I am not being asked to self-certify</button>
       </div>
+    </div>
+
+    <div class="notice amber" id="threshold-band-notice" style="display:none">
+      <span class="notice-icon">⚠</span>
+      <span><strong>FCA concern — possible over-certification.</strong> The FCA has identified people in this income and asset band as being at high risk of being guided into self-certification they do not genuinely qualify for. This is the mechanism used in several recent investment failures, including cases where the FCA had previously warned the firm to stop fundraising. Being in this band does not make the investment wrong — but it means this stage deserves particular care.</span>
     </div>
 
     <div class="question">
@@ -217,6 +222,27 @@
       <div class="q-options">
         <button class="q-btn" onclick="pick(this,'early-returns','no')">No</button>
         <button class="q-btn" onclick="pick(this,'early-returns','yes')">Yes — early payment offered or already received</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Was this investment introduced to you by a third party who may be earning a commission?</div>
+      <div class="q-hint">Introducers — financial advisers, comparison sites, lead generators, or contacts who referred you — sometimes earn significant commissions for bringing in investors. That commission comes from your money and creates a conflict of interest. It does not make the investment fraudulent, but it does mean the introducer's recommendation was not independent.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'introducer','no')">No — I found this directly with no intermediary</button>
+        <button class="q-btn" onclick="pick(this,'introducer','yes-disclosed')">Yes — introduced by a third party and any commission was disclosed</button>
+        <button class="q-btn" onclick="pick(this,'introducer','yes-unknown')">Yes — introduced by a third party and I do not know whether they are being paid</button>
+        <button class="q-btn" onclick="pick(this,'introducer','yes-nodisclosure')">Yes — introduced by a third party and no commission was mentioned</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label">Are lawyers, accountants, insurers, or other professionals associated with this investment — and has their involvement been used to reassure you?</div>
+      <div class="q-hint">Professional names can create a false impression of regulatory cover. A solicitor handling paperwork, an accountant auditing accounts, or an insurer underwriting a policy does not mean the investment is regulated or safe. This is sometimes called "borrowed credibility" — and it is a known feature of investments that later fail.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'borrowed-credibility','no')">No — professional names have not been used as reassurance</button>
+        <button class="q-btn" onclick="pick(this,'borrowed-credibility','yes-minor')">Yes — professionals are mentioned but their role is clearly limited</button>
+        <button class="q-btn" onclick="pick(this,'borrowed-credibility','yes-reassurance')">Yes — professional involvement has been used to make the investment seem safer or more legitimate</button>
       </div>
     </div>
   </section>

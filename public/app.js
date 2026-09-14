@@ -94,6 +94,11 @@ function updateNav() {
 /* ─── Answer selection ─── */
 function pick(btn, key, val) {
   state.answers[key] = val;
+  // Show FCA threshold band notice dynamically
+  if (key === 'criteria') {
+    const notice = document.getElementById('threshold-band-notice');
+    if (notice) notice.style.display = val === 'yes-band' ? 'flex' : 'none';
+  }
   const group = btn.closest('.q-options');
   group.querySelectorAll('.q-btn').forEach(b => {
     b.classList.remove('sel-green', 'sel-red', 'sel-amber');
@@ -381,7 +386,13 @@ function riskScore() {
   const cl = a.classif || [];
   if (cl.some(c => ['sophisticated','hnw','professional'].includes(c))) f++;
   if (a.criteria === 'no')                                 f += 2;
-  if (a.criteria === 'marginal')                           f++;
+  if (a.criteria === 'yes-band')                           f++;   // FCA threshold band — over-certification risk
+  // introducer commission
+  if (a.introducer === 'yes-nodisclosure')                 f += 2;
+  if (a.introducer === 'yes-unknown')                      f++;
+  // borrowed credibility
+  if (a['borrowed-credibility'] === 'yes-reassurance')     f += 2;
+  if (a['borrowed-credibility'] === 'yes-minor')           f++;
   if (a['waiver-explained'] === 'no')                      f++;
   if (a['classif-time'] === 'rushed')                      f++;
 
@@ -441,6 +452,18 @@ function buildSummary() {
   if (a.criteria === 'no' && cl.some(c => ['sophisticated','hnw','professional'].includes(c))) {
     cons.push({ icon: '🛡', title: 'Protection waiver without eligibility',
       body: 'You may be signing away FCA retail protections you are entitled to, without genuinely meeting the criteria. This removes your right to complain to the Financial Ombudsman and may eliminate FSCS cover entirely.', cls: 'risk' });
+  }
+  if (a.criteria === 'yes-band' && cl.some(c => ['sophisticated','hnw'].includes(c))) {
+    cons.push({ icon: '⚠', title: 'FCA over-certification concern — threshold band',
+      body: 'Your income or asset level places you in the band the FCA has specifically identified as high-risk for over-certification. You meet the current legal threshold, but the FCA has proposed raising it precisely because people in this range are routinely guided into self-certification by the firms selling investments. This is the mechanism identified in the Woodville Consultants case and others like it. Proceed with particular care.', cls: 'caution' });
+  }
+  if (a.introducer === 'yes-nodisclosure') {
+    cons.push({ icon: '💸', title: 'Undisclosed introducer commission',
+      body: 'You were introduced to this investment by a third party who has not disclosed whether they are being paid a commission. Undisclosed commissions are a significant conflict of interest — and a known feature of investment failures where introducers were paid substantial fees for every investor they brought in.', cls: 'risk' });
+  }
+  if (a['borrowed-credibility'] === 'yes-reassurance') {
+    cons.push({ icon: '🏛', title: 'Borrowed credibility — professional names used as reassurance',
+      body: 'The involvement of lawyers, accountants, insurers, or other professionals does not make an investment regulated or safe. Professional names are sometimes used deliberately to create a false impression of legitimacy. Ask specifically what each professional is responsible for — and whether any of them are regulated in relation to this investment itself.', cls: 'caution' });
   }
   if (a.secrecy === 'yes') {
     cons.push({ icon: '🔒', title: 'Confidentiality request',

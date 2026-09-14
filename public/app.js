@@ -454,8 +454,8 @@ function buildSummary() {
       body: 'You may be signing away FCA retail protections you are entitled to, without genuinely meeting the criteria. This removes your right to complain to the Financial Ombudsman and may eliminate FSCS cover entirely.', cls: 'risk' });
   }
   if (a.criteria === 'yes-band' && cl.some(c => ['sophisticated','hnw'].includes(c))) {
-    cons.push({ icon: '⚠', title: 'FCA over-certification concern — threshold band',
-      body: 'Your income or asset level places you in the band the FCA has specifically identified as high-risk for over-certification. You meet the current legal threshold, but the FCA has proposed raising it precisely because people in this range are routinely guided into self-certification by the firms selling investments. This is the mechanism identified in the Woodville Consultants case and others like it. Proceed with particular care.', cls: 'caution' });
+    cons.push({ icon: '⚠', title: 'Threshold band — possible over-certification risk',
+      body: 'Your income or asset level places you between the current legal threshold and the higher thresholds briefly introduced in January 2024 and then reversed. The FCA has highlighted a practice in which consumers in this range are encouraged to certify themselves as experienced or wealthy so that high-risk investments can be promoted to them outside normal retail safeguards. Introducer commissions have been reported in connection with Woodville Consultants and are a recurring feature of similar failed schemes. Proceed with particular care.', cls: 'caution' });
   }
   if (a.introducer === 'yes-nodisclosure') {
     cons.push({ icon: '💸', title: 'Undisclosed introducer commission',

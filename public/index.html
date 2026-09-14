@@ -145,10 +145,10 @@
 
     <div id="criteria-sophisticated" class="question" style="display:none">
       <div class="q-label">Which sophistication criterion do you satisfy?</div>
-      <div class="q-hint">Sophistication is a claim about investment experience and competence — not about wealth. Being wealthy does not automatically make someone sophisticated in the legal sense. The FCA requires at least one of the following to apply.</div>
+      <div class="q-hint">Sophistication is a claim about investment experience and competence — not about wealth. Being wealthy does not automatically make someone sophisticated in the legal sense. The FCA requires at least one of the following to apply. Note: the unlisted company criterion requires more than one such investment — a single historic investment does not qualify. The director criterion refers to the company's annual turnover, not the director's personal income or the company's assets.</div>
       <div class="q-options column">
-        <button class="q-btn" onclick="pick(this,'criteria-soph','unlisted')">I have made investments in unlisted companies in the past two years</button>
-        <button class="q-btn" onclick="pick(this,'criteria-soph','director')">I am, or have been in the last two years, a director of a company with annual turnover of at least £1 million</button>
+        <button class="q-btn" onclick="pick(this,'criteria-soph','unlisted')">I have made more than one investment in an unlisted company in the two years preceding the date of this certificate</button>
+        <button class="q-btn" onclick="pick(this,'criteria-soph','director')">I am, or have been in the two years preceding the date of this certificate, a director of a company with an annual turnover of at least £1 million</button>
         <button class="q-btn" onclick="pick(this,'criteria-soph','certified')">I have been certified as sophisticated by an FCA-authorised firm within the last 36 months</button>
         <button class="q-btn" onclick="pick(this,'criteria-soph','none')">None of these apply to me</button>
       </div>

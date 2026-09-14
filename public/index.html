@@ -127,20 +127,44 @@
       </div>
     </div>
 
-    <div class="question">
-      <div class="q-label">Do you genuinely meet the criteria for that classification?</div>
-      <div class="q-hint">Current legal thresholds for high net worth: net assets over £250,000 (excluding home and pension) or annual income over £100,000. In January 2024 the government briefly raised these to £430,000 and £170,000 respectively, before reversing the change following lobbying. The FCA continues to argue that self-certification should be removed, that eligibility should be verified by firms, and that thresholds should be raised — but specifying new figures requires government legislation. For sophisticated: prior investment in unlisted companies, director of a company with £1m+ turnover, or certified by an FCA-authorised firm in the last 36 months.</div>
+    <!-- Conditional criteria question — rendered by JS based on classification selected -->
+    <div id="criteria-hnw" class="question" style="display:none">
+      <div class="q-label">Do you genuinely meet the high net worth criteria?</div>
+      <div class="q-hint">Current legal threshold: net assets over £250,000 (excluding home and pension) or annual income over £100,000. In January 2024 the government briefly raised these to £430,000 and £170,000 respectively before reversing the change following lobbying. The FCA continues to argue that self-certification should be removed, eligibility verified by firms, and thresholds raised — but specifying new figures requires government legislation.</div>
       <div class="q-options column">
-        <button class="q-btn" onclick="pick(this,'criteria','yes-high')">Yes — I clearly meet or exceed the higher thresholds briefly introduced in 2024 (£430k+ net assets or £170k+ income)</button>
-        <button class="q-btn" onclick="pick(this,'criteria','yes-band')">I meet the current legal threshold but not the higher threshold briefly introduced in 2024 (between £250k–£430k assets or £100k–£170k income)</button>
-        <button class="q-btn" onclick="pick(this,'criteria','no')">No — I do not meet the current legal threshold</button>
-        <button class="q-btn" onclick="pick(this,'criteria','na')">Not applicable — I am not being asked to self-certify</button>
+        <button class="q-btn" onclick="pick(this,'criteria-hnw','yes-high')">Yes — I clearly meet or exceed the higher thresholds briefly introduced in 2024 (£430k+ net assets or £170k+ income)</button>
+        <button class="q-btn" onclick="pick(this,'criteria-hnw','yes-band')">I meet the current legal threshold but not the 2024 higher threshold (between £250k–£430k assets or £100k–£170k income)</button>
+        <button class="q-btn" onclick="pick(this,'criteria-hnw','no')">No — I do not meet the current legal threshold</button>
       </div>
     </div>
 
     <div class="notice amber" id="threshold-band-notice" style="display:none">
       <span class="notice-icon">⚠</span>
       <span><strong>Threshold band — possible over-certification risk.</strong> You fall between the current legal threshold and the higher thresholds briefly introduced in January 2024 and then reversed. The FCA has highlighted a practice in which consumers in this range are encouraged to certify themselves as experienced or wealthy so that high-risk investments can be promoted to them outside normal retail safeguards. Being in this band does not make the investment wrong — but it means this stage deserves particular care.</span>
+    </div>
+
+    <div id="criteria-sophisticated" class="question" style="display:none">
+      <div class="q-label">Which sophistication criterion do you satisfy?</div>
+      <div class="q-hint">Sophistication is a claim about investment experience and competence — not about wealth. Being wealthy does not automatically make someone sophisticated in the legal sense. The FCA requires at least one of the following to apply.</div>
+      <div class="q-options column">
+        <button class="q-btn" onclick="pick(this,'criteria-soph','unlisted')">I have made investments in unlisted companies in the past two years</button>
+        <button class="q-btn" onclick="pick(this,'criteria-soph','director')">I am, or have been in the last two years, a director of a company with annual turnover of at least £1 million</button>
+        <button class="q-btn" onclick="pick(this,'criteria-soph','certified')">I have been certified as sophisticated by an FCA-authorised firm within the last 36 months</button>
+        <button class="q-btn" onclick="pick(this,'criteria-soph','none')">None of these apply to me</button>
+      </div>
+    </div>
+
+    <div class="notice warn" id="sophistication-none-notice" style="display:none">
+      <span class="notice-icon">⚠</span>
+      <span><strong>Sophistication criteria not met.</strong> You do not appear to satisfy any of the legal criteria for sophisticated investor status. Signing a self-certification without meeting these criteria removes your retail protections without legal basis. Money is not proof of investment competence — these are separate and distinct legal claims.</span>
+    </div>
+
+    <div class="question" id="criteria-na-block">
+      <div class="q-label">Are you being asked to sign a classification document?</div>
+      <div class="q-options">
+        <button class="q-btn" onclick="pick(this,'criteria','na')">No — not asked to sign anything</button>
+        <button class="q-btn" onclick="pick(this,'criteria','unsure-doc')">There is paperwork but I am not sure what it classifies me as</button>
+      </div>
     </div>
 
     <div class="question">
@@ -226,13 +250,13 @@
     </div>
 
     <div class="question">
-      <div class="q-label">Was this investment introduced to you by a third party who may be earning a commission?</div>
-      <div class="q-hint">Introducers — financial advisers, comparison sites, lead generators, or contacts who referred you — sometimes earn significant commissions for bringing in investors. That commission comes from your money and creates a conflict of interest. It does not make the investment fraudulent, but it does mean the introducer's recommendation was not independent.</div>
+      <div class="q-label">Was this investment introduced to you by a third party?</div>
+      <div class="q-hint">Introducer commissions are normally funded, directly or indirectly, from the money raised by the investment. They may reduce the amount available for the underlying activity and create a conflict of interest — the introducer's financial interest lies in you investing, not in the investment being suitable. A seller saying "your introducer may receive a fee" is very different from disclosing "they will receive 12% of everything you invest."</div>
       <div class="q-options column">
-        <button class="q-btn" onclick="pick(this,'introducer','no')">No — I found this directly with no intermediary</button>
-        <button class="q-btn" onclick="pick(this,'introducer','yes-disclosed')">Yes — introduced by a third party and any commission was disclosed</button>
-        <button class="q-btn" onclick="pick(this,'introducer','yes-unknown')">Yes — introduced by a third party and I do not know whether they are being paid</button>
-        <button class="q-btn" onclick="pick(this,'introducer','yes-nodisclosure')">Yes — introduced by a third party and no commission was mentioned</button>
+        <button class="q-btn" onclick="pick(this,'introducer','no')">No — I found this directly with no intermediary involved</button>
+        <button class="q-btn" onclick="pick(this,'introducer','yes-disclosed')">Yes — an intermediary was involved and the amount and basis of any commission were clearly disclosed</button>
+        <button class="q-btn" onclick="pick(this,'introducer','yes-none-claimed')">Yes — an intermediary was involved and they said they were not being paid</button>
+        <button class="q-btn" onclick="pick(this,'introducer','yes-nodisclosure')">Yes — an intermediary was involved but payment or commission was not clearly disclosed</button>
       </div>
     </div>
 

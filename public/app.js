@@ -94,10 +94,15 @@ function updateNav() {
 /* ─── Answer selection ─── */
 function pick(btn, key, val) {
   state.answers[key] = val;
-  // Show FCA threshold band notice dynamically
-  if (key === 'criteria') {
+  // Show threshold band notice for HNW band selection
+  if (key === 'criteria-hnw') {
     const notice = document.getElementById('threshold-band-notice');
     if (notice) notice.style.display = val === 'yes-band' ? 'flex' : 'none';
+  }
+  // Show sophistication-none notice
+  if (key === 'criteria-soph') {
+    const notice = document.getElementById('sophistication-none-notice');
+    if (notice) notice.style.display = val === 'none' ? 'flex' : 'none';
   }
   const group = btn.closest('.q-options');
   group.querySelectorAll('.q-btn').forEach(b => {
@@ -134,6 +139,19 @@ function pickMulti(btn, key, val) {
     }
   }
   state.answers[key] = Array.from(ma);
+  // Show conditional criteria questions based on classification selected
+  if (key === 'classif') {
+    const vals = state.answers[key] || [];
+    const hasHNW = vals.some(v => v === 'hnw');
+    const hasSoph = vals.some(v => v === 'sophisticated' || v === 'professional');
+    const hasNone = vals.includes('none') || vals.includes('unsure');
+    const hnwBlock = document.getElementById('criteria-hnw');
+    const sophBlock = document.getElementById('criteria-sophisticated');
+    const naBlock = document.getElementById('criteria-na-block');
+    if (hnwBlock) hnwBlock.style.display = hasHNW ? 'block' : 'none';
+    if (sophBlock) sophBlock.style.display = hasSoph ? 'block' : 'none';
+    if (naBlock) naBlock.style.display = (!hasHNW && !hasSoph) ? 'block' : 'none';
+  }
 }
 
 /* ─── Upload & file handling ─── */
@@ -385,11 +403,16 @@ function riskScore() {
 
   const cl = a.classif || [];
   if (cl.some(c => ['sophisticated','hnw','professional'].includes(c))) f++;
-  if (a.criteria === 'no')                                 f += 2;
-  if (a.criteria === 'yes-band')                           f++;   // FCA threshold band — over-certification risk
-  // introducer commission
+  // HNW criteria
+  if (a['criteria-hnw'] === 'no')                          f += 2;
+  if (a['criteria-hnw'] === 'yes-band')                    f++;   // 2024 threshold band
+  // Sophistication criteria
+  if (a['criteria-soph'] === 'none')                       f += 2;
+  // Fallback for na block
+  if (a.criteria === 'unsure-doc')                         f++;
+  // Introducer commission
   if (a.introducer === 'yes-nodisclosure')                 f += 2;
-  if (a.introducer === 'yes-unknown')                      f++;
+  if (a.introducer === 'yes-none-claimed')                 f++;   // claimed no payment — unverifiable
   // borrowed credibility
   if (a['borrowed-credibility'] === 'yes-reassurance')     f += 2;
   if (a['borrowed-credibility'] === 'yes-minor')           f++;
@@ -449,17 +472,21 @@ function buildSummary() {
   const cons = [];
   const cl = a.classif || [];
 
-  if (a.criteria === 'no' && cl.some(c => ['sophisticated','hnw','professional'].includes(c))) {
+  if ((a['criteria-hnw'] === 'no' || a['criteria-soph'] === 'none') && cl.some(c => ['sophisticated','hnw','professional'].includes(c))) {
     cons.push({ icon: '🛡', title: 'Protection waiver without eligibility',
-      body: 'You may be signing away FCA retail protections you are entitled to, without genuinely meeting the criteria. This removes your right to complain to the Financial Ombudsman and may eliminate FSCS cover entirely.', cls: 'risk' });
+      body: 'You do not appear to meet the legal criteria for the classification you are being asked to sign. Signing a self-certification without genuinely qualifying removes your retail protections — including your right to complain to the Financial Ombudsman and any FSCS cover — without legal basis. Wealth and investment sophistication are separate legal claims; meeting one does not satisfy the other.', cls: 'risk' });
   }
-  if (a.criteria === 'yes-band' && cl.some(c => ['sophisticated','hnw'].includes(c))) {
+  if (a['criteria-hnw'] === 'yes-band' && cl.some(c => ['sophisticated','hnw'].includes(c))) {
     cons.push({ icon: '⚠', title: 'Threshold band — possible over-certification risk',
-      body: 'Your income or asset level places you between the current legal threshold and the higher thresholds briefly introduced in January 2024 and then reversed. The FCA has highlighted a practice in which consumers in this range are encouraged to certify themselves as experienced or wealthy so that high-risk investments can be promoted to them outside normal retail safeguards. Introducer commissions have been reported in connection with Woodville Consultants and are a recurring feature of similar failed schemes. Proceed with particular care.', cls: 'caution' });
+      body: 'Your income or asset level places you between the current legal threshold and the higher thresholds briefly introduced in January 2024 and then reversed. The FCA has highlighted a practice in which consumers in this range are encouraged to certify themselves as experienced or wealthy so that high-risk investments can be promoted to them outside normal retail safeguards. Proceed with particular care.', cls: 'caution' });
   }
-  if (a.introducer === 'yes-nodisclosure') {
-    cons.push({ icon: '💸', title: 'Undisclosed introducer commission',
-      body: 'You were introduced to this investment by a third party who has not disclosed whether they are being paid a commission. Undisclosed commissions are a significant conflict of interest — and a known feature of investment failures where introducers were paid substantial fees for every investor they brought in.', cls: 'risk' });
+  if (a['criteria-soph'] === 'none' && cl.some(c => ['sophisticated','professional'].includes(c))) {
+    cons.push({ icon: '🛡', title: 'Sophistication criteria not met',
+      body: 'You do not satisfy any of the legal criteria for sophisticated investor status. Money is not proof of investment competence — wealth and sophistication are separate legal claims. Signing this certification without meeting the criteria removes your retail protections without legal basis and may leave you without recourse if the investment fails.', cls: 'risk' });
+  }
+  if (['yes-nodisclosure','yes-none-claimed'].includes(a.introducer)) {
+    cons.push({ icon: '💸', title: 'Introducer commission not clearly disclosed',
+      body: "An intermediary was involved in bringing you to this investment but the amount and basis of any commission were not clearly disclosed. Introducer commissions are normally funded, directly or indirectly, from the money raised by the investment. They create a conflict of interest — the introducer's financial interest lies in you investing, not in whether the investment is suitable. Introducer commissions have been reported in connection with Woodville Consultants and are a recurring feature of similar failed schemes.", cls: 'risk' });
   }
   if (a['borrowed-credibility'] === 'yes-reassurance') {
     cons.push({ icon: '🏛', title: 'Borrowed credibility — professional names used as reassurance',
